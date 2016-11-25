@@ -41,14 +41,15 @@ function stateChange() {
 
 
 //***procesamientdo de campos globales***//
+
 function actualizarRegistros(){
 	var globalValor = document.getElementById('multiplo').value;
 	var x = document.getElementById("tabla").rows.length;
+	
 	for(var i = 0; i < x; i++){
 		recalcularGlobal(document.getElementById("valor"+(i+1)), globalValor);
 	}
 }
-
 
 function recalcularGlobal(element, nuevoValor) {
 	var url = "modules/processform.php?opcion=globales";
@@ -65,8 +66,6 @@ function recalcularGlobal(element, nuevoValor) {
 	}
 }
 
-
-
 function stateChangeGlobal(row) {
 	if (asyncRequest.readyState == 4 && asyncRequest.status == 200) {		
 		var response = asyncRequest.responseText;		
@@ -80,9 +79,12 @@ function stateChangeGlobal(row) {
 
 
 
-function sleep(seconds){
-    var waitUntil = new Date().getTime() + seconds*1000;
-    while(new Date().getTime() < waitUntil) true;
-}
+
+
+
+
+
+
+
 
 window.addEventListener("load",iniciar,false);
