@@ -1,9 +1,35 @@
 <?php
+     $opcion = $_GET["opcion"];
 
-     $valor = trim($_GET['nuevovalor']);     
-     if(!$valor == ""){
-          $calculo = $valor *2;
-          echo $calculo." Precio Total Producto";      
+      $multiplo = 0;
+
+
+     if($opcion == "editaregistro")
+     {
+          $valor = trim($_GET['nuevovalor']);  
+          $multiplo = trim($_GET['multiplo']);  
+          if(!$valor == ""){                
+               echo calcularValor($valor);      
+          }  
      }
+
+     if($opcion == "globales")
+     {
+          $valor = trim($_GET['nuevovalor']);  
+          $multiplo = trim($_GET['multiplo']);  
+          if(!$valor == ""){                
+               echo calcularValor($valor);      
+          }  
+     }
+
+
+
+
+    
+    function calcularValor($inicial){
+         global $multiplo ;
+         $calculo = $inicial * $multiplo;
+        return $calculo." Precio Total Producto";     
+    }
     
 ?>
