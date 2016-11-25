@@ -9,36 +9,40 @@
     <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
-    <div class="row">
-      <div class="large-12 columns text-center">
-        <h1>Ajax Edicion en Linea</h1>
+    <div class="row align-middle">
+      <div class="medium-4">
+        <figure id="logotipo"><img src="images/logoDromedicas.png" srcset="images/logoDromedicas.png 1x, images/logoDromedicas.png 2x" alt="Logo Droguerias Farmanorte"></figure>
+      </div>
+      <div class="medium-8 columns text-center">
+        <h3>Ajax Edicion en Linea Dromedicas</h3>
       </div>
     </div>
     <div class="row align-center">
       <div class="small-12 medium-8">
-        <table>
-          <tr>
+        <table id="tabla">
+          <caption>Factor: <input class="medium-2" type="text" name="" id="multipo"></caption>
+          <tr id="1">
             <td>Producto 01</td>
             <td>
               <input type="text" name="" id="valor1">
               <td><input type="text" name="" id="total1"></td>
             </td>
           </tr>
-          <tr>
+          <tr id="2">
             <td>Producto 02</td>
             <td>
               <input type="text" name="" id="valor2">
               <td><input type="text" name="" id="total2"></td>
             </td>
           </tr>
-          <tr>
+          <tr id="3">
             <td>Producto 03</td>
             <td>
               <input type="text" name="" id="valor3">
               <td><input type="text" name="" id="total3"></td>
             </td>
           </tr>
-          <tr>
+          <tr id="4">
             <td>Producto 04</td>
             <td>
               <input type="text" name="" id="valor4">
@@ -47,8 +51,8 @@
           </tr>
         </table>        
       </div>
-    </div>
-    
+    </div>  
+    <div class="row columns medium-8"><input type="text" name="" id="j1"></div>
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/what-input.js"></script>
