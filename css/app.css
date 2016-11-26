@@ -7,3 +7,7 @@
 content: '\1F601';
 color:orange; 
 }
+
+tr:hover{
+	background: #dcf8c6!important;
+}
