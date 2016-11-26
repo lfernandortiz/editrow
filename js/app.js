@@ -42,45 +42,6 @@ function stateChange() {
 
 //***procesamientdo de campos globales***//
 
-function _actualizarRegistros(){
-	console.log("Paso 1");
-	var globalValor = document.getElementById('multiplo').value;
-	var x = document.getElementById("tabla").rows.length;	
-	for(var i = 0; i < 1; i++){
-		recalcularGlobal(document.getElementById("valor"+(i+1)), globalValor);
-	}
-}
-
-function recalcularGlobal(element, nuevoValor) {
-	var url = "modules/processform.php?opcion=globales";
-	var rowidGlobal = element.parentNode.parentNode.getAttribute("id");
-	// console.log("Id de la fila--: " + rowidGlobal);
-	console.log("Paso 2");
-	url += "&nuevovalor=" + element.value +"&multiplo=" + nuevoValor; 
-	try {
-		asyncRequest = new XMLHttpRequest();		
-		asyncRequest.addEventListener("readystatechange", function(){stateChangeGlobal(rowidGlobal)}, false);
-		asyncRequest.open("GET", url, true);
-		asyncRequest.send(null);
-	} catch (excepcion) {
-		//console.log(excepcion);
-	}
-}
-
-function stateChangeGlobal(row) {
-	if (asyncRequest.readyState == 4 && asyncRequest.status == 200) {		
-		var response = asyncRequest.responseText;		
-		if(response != "invalid"){
-			console.log("Paso 3");
-			// console.log("Id de la fila Procesada----> " + row);
-			document.getElementById("total"+row).value = response;
-			document.getElementById("j1").value = "Todos los valores de la tabla actualizados.";
-		}			 
-	}//end if principal 
-}
-
-
-
 function actualizarRegistros(){
 	var globalValor = document.getElementById('multiplo').value;
 	var x = document.getElementById("tabla").rows.length;	
