@@ -29,7 +29,7 @@
     function calcularValor($inicial){
          global $multiplo ;
          $calculo = $inicial * $multiplo;
-        return $calculo." Precio Total Producto";     
-    }
+        return $calculo." ";     
+    } 
     
 ?>

@@ -2,3 +2,8 @@
 	border: 2px solid #C6C6C6!important;
 	border-radius: 5px!important;
 }
+
+.emoji-content:after {
+content: '\1F601';
+color:orange; 
+}

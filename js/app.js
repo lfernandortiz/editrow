@@ -44,17 +44,20 @@ function stateChange() {
 
 function actualizarRegistros(){
 	var globalValor = document.getElementById('multiplo').value;
-	var x = document.getElementById("tabla").rows.length;	
+	var x = document.getElementById("tabla").rows.length;
+	var promises = [];	
 	for (var i = 0; i < x; i++) {
-		makeRequest(document.getElementById("valor" + (i + 1)), globalValor)
-			.then(function(datums) {
-				document.getElementById("total"+i).value = datums;
-				document.getElementById("j1").value = "Todos los valores de la tabla actualizados.";
-			})
-			.catch(function(err) {
-				console.error('Augh, there was an error!', err.statusText);
-			});
+		promises.push(makeRequest(document.getElementById("valor" + (i + 1)), globalValor));		
 	}//fin del for
+	Promise.all(promises).then(function(response) {
+		var responses = response;
+		for(var i = 0; i < response.length; i++){
+			document.getElementById("total"+ (i+1)).value = responses[i];
+		}
+	}, function(err) {
+		// error occurred
+	});
+	document.getElementById("j1").value = "Todos los valores de la tabla actualizados.";
 }
 
 
@@ -68,7 +71,6 @@ function makeRequest(element, nuevoValor) {
 		xhr.onload = function() {
 			if (this.status == 200 && this.readyState == 4 ) {
 				var response_ = xhr.response;
-				console.log(response_);
 				resolve(xhr.response);
 			} else {
 				reject({
@@ -85,7 +87,7 @@ function makeRequest(element, nuevoValor) {
 		};
 		xhr.send();
 	});
-}
+}// fin del metodo makeRequest
 
 
 
