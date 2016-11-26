@@ -34,7 +34,7 @@ function stateChange() {
 		var response = asyncRequest.responseText;		
 		if(response != "invalid"){
 			document.getElementById("total"+idGlobal).value = response;
-			document.getElementById("j1").value = response;
+			document.getElementById("j1").value = "Actualizado los registros en la fila: " + idGlobal;
 		}			 
 	}//end if principal 
 }
