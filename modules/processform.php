@@ -26,7 +26,7 @@
     function calcularValor($inicial){
          global $multiplo ;
          $calculo = $inicial * $multiplo;
-        return $calculo." ----";     
+        return $calculo."";     
     } 
     
 ?>
