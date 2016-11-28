@@ -80,9 +80,7 @@ function reestablecerValor(tdElem, e, resultados, url, campo){
 		url += id+"&"+campo+"="+valorActual;
 		console.log(url);
 
-		//ole me falta mandar el nuevo valor
-
-		// actualizarRegistros(fila, resultados, url);
+		actualizarRegistros(fila, resultados, url);
 		
 	}
 }
@@ -92,20 +90,30 @@ function actualizarRegistros(fila, resultados, url){
 	var fila = fila;
 	try {
 			asyncRequest = new XMLHttpRequest();
-			asyncRequest.addEventListener("readystatechange", stateChange, false);
+			asyncRequest.addEventListener("readystatechange",function(){stateChange(fila,resultados)}, false);
 			asyncRequest.open("GET", url, true);
 			asyncRequest.send(null);
 	} catch (excepcion){		
 	}	
 }
 	
-function stateChange() {
+function stateChange(fila,resultados) {
 	if (asyncRequest.readyState == 4 && asyncRequest.status == 200) {		
-		var response = asyncRequest.responseText;		
+		var response = asyncRequest.responseText.split(',');		
+		var resultados = resultados.split(',');		
 		if(response != "invalid"){
-			document.getElementById("total"+idGlobal).value = response;
-			document.getElementById("j1").value = "Actualizado los registros en la fila: " + idGlobal;
-		}			 
+		//valido que la respuesta contenga el mismo nro de element de resultados	
+		console.log(response);
+		console.log("--------"+ resultados.length +" "+ response.length);
+			if(resultados.length == response.length){
+				for(var i=0; i < resultados.length; i++){
+					document.getElementById(resultados[i]+fila).appendChild(
+						document.createTextNode(response[i]));					
+				}
+			}else{
+				console.error("La respuesta recibida no coincide con el nro de campos de la fila");
+			}
+		}//fin del if interno			 
 	}//end if principal 
 }
 
@@ -131,15 +139,11 @@ function formatoMiles(n, dp) {
 }
 
 
-
-
-
-
 //simula la actividad del programador
 function iniciar(){
 
 	establecerTabla("tabla");	
-	establecerTriggerDeFila("valor", "[valor,total]", "modules/processform.php?opcion=recalcular&id=");
+	establecerTriggerDeFila("cantidad", "valor,total", "modules/processform.php?opcion=recalcular&id=");
 
 }
 window.addEventListener("load",iniciar,false);

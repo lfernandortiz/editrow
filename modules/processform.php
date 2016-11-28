@@ -24,10 +24,14 @@
 
 
      if ($opcion == "recalcular") {
-          $valor = trim($_GET['idregistro']);
-          $multiplo = trim($_GET['multiplo']);
-          if (!$valor == "") {
-               echo calcularValor($valor);
+          $id = trim($_GET['id']);
+          $cantidad = trim($_GET['cantidad']);
+          if (!$cantidad == "") {
+               $valor = $cantidad * 1000;
+               $total = $valor *2;
+               echo "".$valor.",".$total."";
+          }else{
+               echo "invalid";
           }
      }
 
