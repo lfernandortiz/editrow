@@ -9,10 +9,47 @@
     <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
-    
+    <div class="row align-middle">
+      <div class="medium-4">
+        <figure id="logotipo"><img src="images/logoDromedicas.png" srcset="images/logoDromedicas.png 1x, images/logoDromedicas.png 2x" alt="Logo Droguerias Farmanorte"></figure>
+      </div>
+      <div class="medium-8 columns text-center">
+        <h3>Ajax Edicion en Linea Dromedicas</h3> <!-- &#x1F44A; &#x1F609; -->
+      </div>
+    </div>
+    <div class="row align-center">  
+      <div class="small-12 medium-8">
+        <table id="tabla">
+          <caption>Factor: <input class="medium-2" type="text" name="" id="multiplo"></caption>
+          <!-- (tr#$>td#producto${NombreProducto $}+td#cantidad$+td#total$)*4           -->
+          <tr id="1">
+            <td id="producto1">NombreProducto 1</td>
+            <td id="cantidad1">1</td>
+            <td id="total1"></td>
+          </tr>
+          <tr id="2">
+            <td id="producto2">NombreProducto 2</td>
+            <td id="cantidad2">2</td>
+            <td id="total2"></td>
+          </tr>
+          <tr id="3">
+            <td id="producto3">NombreProducto 3</td>
+            <td id="cantidad3">3</td>
+            <td id="total3"></td>
+          </tr>
+          <tr id="4">
+            <td id="producto4">NombreProducto 4</td>
+            <td id="cantidad4">4</td>
+            <td id="total4"></td>
+          </tr>
+        </table>        
+      </div>
+    </div>  
+    <div class="row columns medium-8"><input type="text" name="" id="j1"></div>
+
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/what-input.js"></script>
     <script src="js/vendor/foundation.js"></script>
-    <script src="js/appdos.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>
