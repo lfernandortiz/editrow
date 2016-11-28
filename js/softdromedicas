@@ -1,4 +1,7 @@
 
-
+1//
 1//cambiar de simple texto a imput text
-2//
+
+
+
+window.addEventListener("load",iniciar,false);

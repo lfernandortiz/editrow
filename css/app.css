@@ -12,3 +12,7 @@ color:orange;
 tr:hover{
 	background: #dcf8c6!important;
 }
+
+input{
+	margin-bottom: 0!important;
+}
