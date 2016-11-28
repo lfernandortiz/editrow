@@ -9,8 +9,6 @@ function iniciar(){
 	for(var i = 0; i < x; i++){
 		document.getElementById("valor"+(i+1)).addEventListener("blur", recalcular, false);
 	}
-
-
 	//campo global
 	document.getElementById('multiplo').addEventListener("blur", actualizarRegistros, false);
 }

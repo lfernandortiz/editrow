@@ -19,28 +19,28 @@ function establecerTabla(nombreTabla){
 function establecerTriggerDeFila(idTrigger, resultados, url){
 	for(var i = 0; i < nroDeFilas; i++){
 		var tdElem = document.getElementById(idTrigger + (i+1));
-		establecerEventosTrigger(tdElem, resultados, url);
+		establecerEventosTrigger(tdElem, resultados, url, idTrigger);
 	}	
 }
 
 
-function establecerEventosTrigger(tdElem, resultados, url){
-	tdElem.addEventListener("click", function(){cambiarElemento(tdElem, "click", event, resultados, url);},false);
-	tdElem.addEventListener("blur", function(){cambiarElemento(tdElem, "blur", event, resultados, url);},false);
+function establecerEventosTrigger(tdElem, resultados, url, trigger){
+	tdElem.addEventListener("click", function(){cambiarElemento(tdElem, "click", event, resultados, url, trigger);},false);
+	// tdElem.addEventListener("blur", function(){cambiarElemento(tdElem, "blur", event, resultados, url);},false);
 }
 
 
 //interacciona entre input text y el contenido de la celda
-function cambiarElemento(tdElem, evento, e, resultados, url){	
+function cambiarElemento(tdElem, evento, e, resultados, url, trigger){	
 	var valor = tdElem.textContent;
-	try{
+	try{//si el evento es click y el hijo del td es un nodo de texto (type=3)
 		if (evento == "click" && e.target.firstChild.nodeType == 3) {
 			var nodoInput = nuevoNodo(valor);
 			tdElem.innerHTML = "";
 			tdElem.appendChild(nodoInput);
 			// nodoInput.value = nodoInput.value;	
 			nodoInput.focus();
-			nodoInput.addEventListener("blur",function(){reestablecerValor(tdElem, event, resultados, url);},false);
+			nodoInput.addEventListener("blur",function(){reestablecerValor(tdElem, event, resultados, url, trigger);},false);
 			nodoInput.addEventListener("keypress",function(){reestablecerValorEnter(tdElem, event);},false);
 			
 		} //fin del if
@@ -49,22 +49,6 @@ function cambiarElemento(tdElem, evento, e, resultados, url){
 	
 }
 
-//reestablece el valor en la celda al perder el foco
-//Solamente este metodo hace la llamda async
-function reestablecerValor(tdElem, e, resultados, id, url){
-	console.log("Evento Blur");
-	var valorActual = formatoMiles(e.target.value.replace(",",""));
-	if ("NaN" == valorActual || 0 == valorActual) {
-		e.target.className += " errorInput";
-	} else {
-		tdElem.innerHTML = "";
-		tdElem.appendChild(document.createTextNode(valorActual));
-		console.log("*Async Request*");
-		
-	}
-
-		
-}
 
 //reestablece el valor en la celda al oprimir la tecla enter
 function reestablecerValorEnter(tdElem, e){	
@@ -80,6 +64,51 @@ function reestablecerValorEnter(tdElem, e){
 	}//fin if principal
 }
 
+//reestablece el valor en la celda al perder el foco
+//Solamente este metodo hace la llamda async
+function reestablecerValor(tdElem, e, resultados, url, campo){
+	console.log("Evento Blur");
+	var valorActual = formatoMiles(e.target.value.replace(",",""));
+	if ("NaN" == valorActual || 0 == valorActual) {
+		e.target.className += " errorInput";
+	} else {
+		var id = e.target.parentNode.parentNode.getAttribute("value");
+		var fila = e.target.parentNode.parentNode.getAttribute("id");
+		tdElem.innerHTML = "";
+		tdElem.appendChild(document.createTextNode(valorActual));
+		console.log("*Async Request*");
+		url += id+"&"+campo+"="+valorActual;
+		console.log(url);
+
+		//ole me falta mandar el nuevo valor
+
+		// actualizarRegistros(fila, resultados, url);
+		
+	}
+}
+
+//metodo Ajax
+function actualizarRegistros(fila, resultados, url){
+	var fila = fila;
+	try {
+			asyncRequest = new XMLHttpRequest();
+			asyncRequest.addEventListener("readystatechange", stateChange, false);
+			asyncRequest.open("GET", url, true);
+			asyncRequest.send(null);
+	} catch (excepcion){		
+	}	
+}
+	
+function stateChange() {
+	if (asyncRequest.readyState == 4 && asyncRequest.status == 200) {		
+		var response = asyncRequest.responseText;		
+		if(response != "invalid"){
+			document.getElementById("total"+idGlobal).value = response;
+			document.getElementById("j1").value = "Actualizado los registros en la fila: " + idGlobal;
+		}			 
+	}//end if principal 
+}
+
 
 function nuevoNodo(contenido){
 	var input = document.createElement("input");
@@ -87,8 +116,7 @@ function nuevoNodo(contenido){
 	input.value = contenido;
 	input.focus();
     input.setSelectionRange(0,(contenido.length+1));
-	return input;
-	
+	return input;	
 }
 
 function formatoMiles(n, dp) {
@@ -104,13 +132,16 @@ function formatoMiles(n, dp) {
 
 
 
+
+
+
 //simula la actividad del programador
 function iniciar(){
 
 	establecerTabla("tabla");	
-	establecerTriggerDeFila("cantidad", "[valor,total]", "modules/processform.php?opcion=recalcular");
-
-
+	establecerTriggerDeFila("valor", "[valor,total]", "modules/processform.php?opcion=recalcular&id=");
 
 }
 window.addEventListener("load",iniciar,false);
+
+

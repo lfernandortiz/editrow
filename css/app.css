@@ -3,12 +3,9 @@
 	border-radius: 5px!important;
 }
 
-.emoji-content:after {
-content: '\1F601';
-color:orange; 
-}
 
 
+/*****Estos son solo los estilos para la edicion en linea********/
 tr:hover{
 	background: #dcf8c6!important;
 }
