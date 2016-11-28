@@ -72,14 +72,13 @@ function reestablecerValor(tdElem, e, resultados, url, campo){
 	if ("NaN" == valorActual || 0 == valorActual) {
 		e.target.className += " errorInput";
 	} else {
-		var id = e.target.parentNode.parentNode.getAttribute("value");
+		var id = e.target.parentNode.parentNode.getAttribute("value");/// esto cambiarlo por un iput hidden
 		var fila = e.target.parentNode.parentNode.getAttribute("id");
 		tdElem.innerHTML = "";
 		tdElem.appendChild(document.createTextNode(valorActual));
 		console.log("*Async Request*");
 		url += id+"&"+campo+"="+valorActual;
 		console.log(url);
-
 		actualizarRegistros(fila, resultados, url);
 		
 	}
@@ -100,20 +99,20 @@ function actualizarRegistros(fila, resultados, url){
 function stateChange(fila,resultados) {
 	if (asyncRequest.readyState == 4 && asyncRequest.status == 200) {		
 		var response = asyncRequest.responseText.split(',');		
-		var resultados = resultados.split(',');		
-		if(response != "invalid"){
-		//valido que la respuesta contenga el mismo nro de element de resultados	
-		console.log(response);
-		console.log("--------"+ resultados.length +" "+ response.length);
-			if(resultados.length == response.length){
-				for(var i=0; i < resultados.length; i++){
-					document.getElementById(resultados[i]+fila).appendChild(
-						document.createTextNode(response[i]));					
+		var resultados = resultados.split(',');	
+		console.log(response);	
+		if (response != "invalid") {
+			//valido que la respuesta contenga el mismo nro de element de resultados	
+			if (resultados.length == response.length) {
+				for (var i = 0; i < resultados.length; i++) {
+					document.getElementById(resultados[i] + fila).innerHTML="";
+					document.getElementById(resultados[i] + fila).appendChild(
+						document.createTextNode(response[i]));
 				}
-			}else{
+			} else {
 				console.error("La respuesta recibida no coincide con el nro de campos de la fila");
 			}
-		}//fin del if interno			 
+		} //fin del if interno
 	}//end if principal 
 }
 

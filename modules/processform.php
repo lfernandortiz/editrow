@@ -30,13 +30,13 @@
                $valor = $cantidad * 1000;
                $total = $valor *2;
                echo "".$valor.",".$total."";
+               // echo "".$valor."";
           }else{
                echo "invalid";
           }
      }
 
     
-
     
     function calcularValor($inicial){
          global $multiplo ;
