@@ -16,3 +16,8 @@ tr:hover{
 input{
 	margin-bottom: 0!important;
 }
+
+.errorInput{
+	background-color: rgba(198,15,19,.3)!important;
+    border-color: #c60f13!important;
+}

@@ -52,8 +52,8 @@ function cambiarElemento(tdElem, evento, e){
 function reestablecerValor(tdElem, e){
 	console.log("perdi el foco");
 	var valorActual = formatoMiles(e.target.value.replace(",",""));
-	if("NaN" == valorActual){
-		alert("El valor ingresado no es valido");		
+	if("NaN" == valorActual || 0 == valorActual ){
+		e.target.className +=  " errorInput";
 	}else{
 		tdElem.innerHTML = "";
 		tdElem.appendChild(document.createTextNode(valorActual));
@@ -64,8 +64,8 @@ function reestablecerValor(tdElem, e){
 function reestablecerValorEnter(tdElem, e){
 	if (e.keyCode == 13) {
 		var valorActual = formatoMiles(e.target.value.replace(",",""));
-		if ("NaN" == valorActual) {
-			alert("El valor ingresado no es valido");
+		if ("NaN" == valorActual || 0 == valorActual) {
+			e.target.className += " errorInput";
 		} else {
 			tdElem.innerHTML = "";
 			tdElem.appendChild(document.createTextNode(valorActual));
