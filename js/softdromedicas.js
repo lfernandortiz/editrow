@@ -52,17 +52,25 @@ function cambiarElemento(tdElem, evento, e){
 function reestablecerValor(tdElem, e){
 	console.log("perdi el foco");
 	var valorActual = formatoMiles(e.target.value.replace(",",""));
-	tdElem.innerHTML = "";
-	tdElem.appendChild(document.createTextNode(valorActual));
+	if("NaN" == valorActual){
+		alert("El valor ingresado no es valido");		
+	}else{
+		tdElem.innerHTML = "";
+		tdElem.appendChild(document.createTextNode(valorActual));
+	}	
 }
 
 //reestablece el valor al oprimir la techa enter
 function reestablecerValorEnter(tdElem, e){
 	if (e.keyCode == 13) {
 		var valorActual = formatoMiles(e.target.value.replace(",",""));
-		tdElem.innerHTML = "";
-		tdElem.appendChild(document.createTextNode(valorActual));
-	}
+		if ("NaN" == valorActual) {
+			alert("El valor ingresado no es valido");
+		} else {
+			tdElem.innerHTML = "";
+			tdElem.appendChild(document.createTextNode(valorActual));
+		}
+	}//fin if principal
 }
 
 
@@ -92,6 +100,6 @@ function formatoMiles(n, dp) {
 //simula la actividad del programador
 function iniciar(){
 	establecerTabla("tabla");
-	establecerTriggerDeFila("cantidad");
+	establecerTriggerDeFila("producto");
 }
 window.addEventListener("load",iniciar,false);
