@@ -3,6 +3,7 @@
 var nroDeFilas;
 
 
+
 //Establezco la variableglobal nro de Filas, pasando como argumento el id de la tabla
 function establecerTabla(nombreTabla){
 	nroDeFilas = document.getElementById(nombreTabla).rows.length;
@@ -11,35 +12,35 @@ function establecerTabla(nombreTabla){
 
 
 //Usada para establecer los elementos que dispara los eventos en la fila
-//y cuales son los elementos que despliegan la respuesta, el segundo elemento
-//es un array de objetos Elements. El tercero debe ser la url que atiende 
-//la llamada ajax.
-function establecerTriggerDeFila(idTrigger){
+//los parametros son:
+//1 Columna o celda de la fila que dispara el evento
+//2 Arreglo con las demas celdas que recibel el resultado en el orden de la respuesta del servidor
+//3 url - proceso del lado del servidor que procesa la solicitud
+function establecerTriggerDeFila(idTrigger, resultados, url){
 	for(var i = 0; i < nroDeFilas; i++){
 		var tdElem = document.getElementById(idTrigger + (i+1));
-		establecerEventosTrigger(tdElem);
+		establecerEventosTrigger(tdElem, resultados, url);
 	}	
 }
 
 
-function establecerEventosTrigger(tdElem){
-	tdElem.addEventListener("click", function(){cambiarElemento(tdElem, "click", event);},false);
-	tdElem.addEventListener("blur", function(){cambiarElemento(tdElem, "blur", event);},false);
+function establecerEventosTrigger(tdElem, resultados, url){
+	tdElem.addEventListener("click", function(){cambiarElemento(tdElem, "click", event, resultados, url);},false);
+	tdElem.addEventListener("blur", function(){cambiarElemento(tdElem, "blur", event, resultados, url);},false);
 }
 
 
 //interacciona entre input text y el contenido de la celda
-function cambiarElemento(tdElem, evento, e){	
+function cambiarElemento(tdElem, evento, e, resultados, url){	
 	var valor = tdElem.textContent;
 	try{
 		if (evento == "click" && e.target.firstChild.nodeType == 3) {
 			var nodoInput = nuevoNodo(valor);
-			console.log(nodoInput);
 			tdElem.innerHTML = "";
 			tdElem.appendChild(nodoInput);
 			// nodoInput.value = nodoInput.value;	
 			nodoInput.focus();
-			nodoInput.addEventListener("blur",function(){reestablecerValor(tdElem, event);},false);
+			nodoInput.addEventListener("blur",function(){reestablecerValor(tdElem, event, resultados, url);},false);
 			nodoInput.addEventListener("keypress",function(){reestablecerValorEnter(tdElem, event);},false);
 			
 		} //fin del if
@@ -48,25 +49,31 @@ function cambiarElemento(tdElem, evento, e){
 	
 }
 
-
-function reestablecerValor(tdElem, e){
-	console.log("perdi el foco");
+//reestablece el valor en la celda al perder el foco
+//Solamente este metodo hace la llamda async
+function reestablecerValor(tdElem, e, resultados, id, url){
+	console.log("Evento Blur");
 	var valorActual = formatoMiles(e.target.value.replace(",",""));
-	if("NaN" == valorActual || 0 == valorActual ){
-		e.target.className +=  " errorInput";
-	}else{
+	if ("NaN" == valorActual || 0 == valorActual) {
+		e.target.className += " errorInput";
+	} else {
 		tdElem.innerHTML = "";
 		tdElem.appendChild(document.createTextNode(valorActual));
-	}	
+		console.log("*Async Request*");
+		
+	}
+
+		
 }
 
-//reestablece el valor al oprimir la techa enter
-function reestablecerValorEnter(tdElem, e){
+//reestablece el valor en la celda al oprimir la tecla enter
+function reestablecerValorEnter(tdElem, e){	
 	if (e.keyCode == 13) {
+		console.log("Evento Teclado");
 		var valorActual = formatoMiles(e.target.value.replace(",",""));
 		if ("NaN" == valorActual || 0 == valorActual) {
 			e.target.className += " errorInput";
-		} else {
+		} else {			
 			tdElem.innerHTML = "";
 			tdElem.appendChild(document.createTextNode(valorActual));
 		}
@@ -99,7 +106,11 @@ function formatoMiles(n, dp) {
 
 //simula la actividad del programador
 function iniciar(){
-	establecerTabla("tabla");
-	establecerTriggerDeFila("producto");
+
+	establecerTabla("tabla");	
+	establecerTriggerDeFila("cantidad", "[valor,total]", "modules/processform.php?opcion=recalcular");
+
+
+
 }
 window.addEventListener("load",iniciar,false);

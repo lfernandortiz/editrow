@@ -22,6 +22,18 @@
           }  
      }
 
+     if($opcion == "recalcular")
+          {
+               $valor = trim($_GET['idregistro']);  
+               $multiplo = trim($_GET['multiplo']);  
+               if(!$valor == ""){                
+                    echo calcularValor($valor);      
+               }  
+          }
+
+
+    
+
     
     function calcularValor($inicial){
          global $multiplo ;
