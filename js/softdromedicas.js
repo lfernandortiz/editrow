@@ -28,32 +28,41 @@ function establecerEventosTrigger(tdElem){
 }
 
 
+//interacciona entre input text y el contenido de la celda
 function cambiarElemento(tdElem, evento, e){	
 	var valor = tdElem.textContent;
 	try{
 		if (evento == "click" && e.target.firstChild.nodeType == 3) {
 			var nodoInput = nuevoNodo(valor);
 			console.log(nodoInput);
-			tdElem.innerHTML = "";	
+			tdElem.innerHTML = "";
 			tdElem.appendChild(nodoInput);
-			nodoInput.addEventListener("blur",function(){reestablecerValor(tdElem, event);},false);
+			// nodoInput.value = nodoInput.value;	
 			nodoInput.focus();
-			var range = nodoInput.createTextRange();
-			range.collapse(false);
-			range.select();
-
-
-		}
+			nodoInput.addEventListener("blur",function(){reestablecerValor(tdElem, event);},false);
+			nodoInput.addEventListener("keypress",function(){reestablecerValorEnter(tdElem, event);},false);
+			
+		} //fin del if
 	}catch(exception){
 	}
 	
 }
 
+
 function reestablecerValor(tdElem, e){
 	console.log("perdi el foco");
-	var valorActual = e.target.value;
+	var valorActual = formatoMiles(e.target.value.replace(",",""));
 	tdElem.innerHTML = "";
 	tdElem.appendChild(document.createTextNode(valorActual));
+}
+
+//reestablece el valor al oprimir la techa enter
+function reestablecerValorEnter(tdElem, e){
+	if (e.keyCode == 13) {
+		var valorActual = formatoMiles(e.target.value.replace(",",""));
+		tdElem.innerHTML = "";
+		tdElem.appendChild(document.createTextNode(valorActual));
+	}
 }
 
 
@@ -67,11 +76,22 @@ function nuevoNodo(contenido){
 	
 }
 
+function formatoMiles(n, dp) {
+	var s = '' + (Math.floor(n)),
+		d = n % 1,
+		i = s.length,
+		r = '';
+	while ((i -= 3) > 0) {
+		r = ',' + s.substr(i, 3) + r;
+	}
+	return s.substr(0, i + 3) + r + (d ? '.' + Math.round(d * Math.pow(10, dp || 2)) : '');
+}
 
 
 
+//simula la actividad del programador
 function iniciar(){
 	establecerTabla("tabla");
-	establecerTriggerDeFila("producto");
+	establecerTriggerDeFila("cantidad");
 }
 window.addEventListener("load",iniciar,false);
