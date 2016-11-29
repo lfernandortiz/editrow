@@ -100,7 +100,8 @@ function stateChange(fila,resultados, tdElem) {
 	if(asyncRequest.readyState >= 1 &&	asyncRequest.readyState <= 3 ){
 		console.log(tdelement.className.includes(" spinner"));
 		if( !tdelement.className.includes(" spinner") ){
-			tdelement.className += "spinner"
+			tdelement.className += "spinner";
+			tdelement.parentNode.className = "";
 		}
 		
 	}
@@ -118,12 +119,11 @@ function stateChange(fila,resultados, tdElem) {
 				}
 				console.log(tdelement);
 				tdelement.className = "";
+				tdelement.parentNode.className += "highlight";
 			} else {
 				console.error("La respuesta recibida no coincide con el nro de campos de la fila");
 			}
-		} //fin del if interno
-
-		
+		} //fin del if interno		
 	}//end if principal 
 }
 

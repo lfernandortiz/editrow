@@ -23,3 +23,18 @@ input{
 	z-index: 99;
 	background:url('../images/ajax-loader-small.gif') no-repeat right center;
 }
+
+/****Highlight****/
+@-webkit-keyframes yellow-fade {
+   0% {background: rgba(247, 255, 20, 0.5);}
+   100% {background: none;}
+}
+@keyframes yellow-fade {
+   0% {background: rgba(247, 255, 20, 0.5);}
+   100% {background: none;}
+}
+
+.highlight {
+   -webkit-animation: yellow-fade 0.5s ease-in 1;
+   animation: yellow-fade 0.5s ease-in 1;
+}
