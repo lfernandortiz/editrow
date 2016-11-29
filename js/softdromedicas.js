@@ -73,10 +73,10 @@ function reestablecerValor(tdElem, e, resultados, url, campo){
 	if ("NaN" == valorActual || 0 == valorActual) {
 		e.target.className += " errorInput";
 	} else {
-		var id = e.target.parentNode.parentNode.getAttribute("value");/// esto cambiarlo por un iput hidden
+		var id = e.target.parentNode.parentNode.getAttribute("data-value");/// esto cambiarlo por un iput hidden
 		var fila = e.target.parentNode.parentNode.getAttribute("id");
 		url += id+"&"+campo+"="+valorActual.replace(",","");//quitamos las comas
-		console.log("*Async Request*");
+		console.log("*Async Request* " + url);
 		actualizarRegistros(fila, resultados, url, tdElem);
 		tdElem.innerHTML = "";
 		tdElem.appendChild(document.createTextNode(valorActual));		
@@ -153,6 +153,7 @@ function formatoMiles(n, dp) {
 function iniciar(){
 
 	establecerTabla("tabla");	
+	//Parametros: celda trigger | campos que se alteran en orden a la rpta del serv | url
 	establecerTriggerDeFila("cantidad", "valor,total", "modules/processform.php?opcion=recalcular&id=");
 
 }
