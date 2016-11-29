@@ -1,12 +1,14 @@
 
 //1 registro de los disparadores de evento
 var nroDeFilas;
+var tabla;
 var currentNodeInput;
 
 
 //Establezco la variableglobal nro de Filas, pasando como argumento el id de la tabla
 function establecerTabla(nombreTabla){
-	nroDeFilas = document.getElementById(nombreTabla).rows.length;
+	tabla = document.getElementById(nombreTabla);
+	nroDeFilas = tabla.tBodies[0].rows.length;
 	console.log(nroDeFilas);
 }
 
@@ -18,7 +20,7 @@ function establecerTabla(nombreTabla){
 //3 url - proceso del lado del servidor que procesa la solicitud
 function establecerTriggerDeFila(idTrigger, resultados, url){
 	for(var i = 0; i < nroDeFilas; i++){
-		var tdElem = document.getElementById(idTrigger + (i+1));
+		var tdElem = tabla.querySelector('#'+idTrigger + (i+1));
 		establecerEventosTrigger(tdElem, resultados, url, idTrigger);
 	}	
 }
