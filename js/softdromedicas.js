@@ -125,7 +125,7 @@ function stateChange(fila,resultados, tdElem) {
 			}
 		} //fin del if interno		
 	}//end if principal 
-}
+} 
 
 
 function nuevoNodo(contenido){
