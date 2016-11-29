@@ -1,7 +1,7 @@
 
 //1 registro de los disparadores de evento
 var nroDeFilas;
-
+var currentNodeInput;
 
 
 //Establezco la variableglobal nro de Filas, pasando como argumento el id de la tabla
@@ -69,34 +69,41 @@ function reestablecerValorEnter(tdElem, e){
 function reestablecerValor(tdElem, e, resultados, url, campo){
 	console.log("Evento Blur");
 	var valorActual = formatoMiles(e.target.value.replace(",",""));
+	console.log("valor actual: "+ valorActual);
 	if ("NaN" == valorActual || 0 == valorActual) {
 		e.target.className += " errorInput";
 	} else {
 		var id = e.target.parentNode.parentNode.getAttribute("value");/// esto cambiarlo por un iput hidden
 		var fila = e.target.parentNode.parentNode.getAttribute("id");
-		tdElem.innerHTML = "";
-		tdElem.appendChild(document.createTextNode(valorActual));
+		url += id+"&"+campo+"="+valorActual.replace(",","");//quitamos las comas
 		console.log("*Async Request*");
-		url += id+"&"+campo+"="+valorActual;
-		console.log(url);
-		actualizarRegistros(fila, resultados, url);
-		
+		actualizarRegistros(fila, resultados, url, tdElem);
+		tdElem.innerHTML = "";
+		tdElem.appendChild(document.createTextNode(valorActual));		
 	}
 }
 
 //metodo Ajax
-function actualizarRegistros(fila, resultados, url){
+function actualizarRegistros(fila, resultados, url, tdElem){
 	var fila = fila;
 	try {
 			asyncRequest = new XMLHttpRequest();
-			asyncRequest.addEventListener("readystatechange",function(){stateChange(fila,resultados)}, false);
+			asyncRequest.addEventListener("readystatechange",function(){stateChange(fila,resultados, tdElem)}, false);
 			asyncRequest.open("GET", url, true);
 			asyncRequest.send(null);
 	} catch (excepcion){		
 	}	
 }
 	
-function stateChange(fila,resultados) {
+function stateChange(fila,resultados, tdElem) {
+	var tdelement = tdElem;
+	if(asyncRequest.readyState >= 1 &&	asyncRequest.readyState <= 3 ){
+		console.log(tdelement.className.includes(" spinner"));
+		if( !tdelement.className.includes(" spinner") ){
+			tdelement.className += "spinner"
+		}
+		
+	}
 	if (asyncRequest.readyState == 4 && asyncRequest.status == 200) {		
 		var response = asyncRequest.responseText.split(',');		
 		var resultados = resultados.split(',');	
@@ -107,12 +114,16 @@ function stateChange(fila,resultados) {
 				for (var i = 0; i < resultados.length; i++) {
 					document.getElementById(resultados[i] + fila).innerHTML="";
 					document.getElementById(resultados[i] + fila).appendChild(
-						document.createTextNode(response[i]));
+					document.createTextNode(response[i]));					
 				}
+				console.log(tdelement);
+				tdelement.className = "";
 			} else {
 				console.error("La respuesta recibida no coincide con el nro de campos de la fila");
 			}
 		} //fin del if interno
+
+		
 	}//end if principal 
 }
 

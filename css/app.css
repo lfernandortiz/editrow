@@ -21,4 +21,5 @@ input{
 
 .spinner{
 	z-index: 99;
+	background:url('../images/ajax-loader-small.gif') no-repeat right center;
 }
