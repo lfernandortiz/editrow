@@ -40,15 +40,14 @@ function cambiarElemento(tdElem, evento, e, resultados, url, trigger){
 			var nodoInput = nuevoNodo(valor);
 			tdElem.innerHTML = "";
 			tdElem.appendChild(nodoInput);
+			//descomente la siguiente linea si desea que el cursor quede al final
 			// nodoInput.value = nodoInput.value;	
 			nodoInput.focus();
 			nodoInput.addEventListener("blur",function(){reestablecerValor(tdElem, event, resultados, url, trigger);},false);
-			nodoInput.addEventListener("keypress",function(){reestablecerValorEnter(tdElem, event);},false);
-			
+			nodoInput.addEventListener("keypress",function(){reestablecerValorEnter(tdElem, event);},false);			
 		} //fin del if
 	}catch(exception){
-	}
-	
+	}	
 }
 
 
@@ -67,7 +66,7 @@ function reestablecerValorEnter(tdElem, e){
 }
 
 //reestablece el valor en la celda al perder el foco
-//Solamente este metodo hace la llamda async
+//Solamente este metodo hace la llamda asincronica
 function reestablecerValor(tdElem, e, resultados, url, campo){
 	console.log("Evento Blur");
 	var valorActual = formatoMiles(e.target.value.replace(",",""));
@@ -102,7 +101,7 @@ function stateChange(fila,resultados, tdElem) {
 	if(asyncRequest.readyState >= 1 &&	asyncRequest.readyState <= 3 ){
 		console.log(tdelement.className.includes(" spinner"));
 		if( !tdelement.className.includes(" spinner") ){
-			tdelement.className += "spinner";
+			tdelement.className += " spinner";
 			tdelement.parentNode.className = "";
 		}
 		
@@ -117,7 +116,7 @@ function stateChange(fila,resultados, tdElem) {
 				for (var i = 0; i < resultados.length; i++) {
 					document.getElementById(resultados[i] + fila).innerHTML="";
 					document.getElementById(resultados[i] + fila).appendChild(
-					document.createTextNode(response[i]));					
+												document.createTextNode(response[i]));					
 				}
 				console.log(tdelement);
 				tdelement.className = "";
